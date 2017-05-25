@@ -1,0 +1,209 @@
+\documentclass[eng,openany]{mgr}
+\usepackage{listings}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{tabularx,colortbl} 
+\usepackage{rotating}
+\usepackage[utf8]{inputenc} 
+\setlength\parindent{24pt}
+\usepackage[parfill]{parskip}
+\usepackage[table,kernelfbox,hyperref]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{gauss}
+%\usepackage[colorinlistoftodos]{todonotes}
+
+\hypersetup{colorlinks=true}
+\hypersetup{xurlbordercolor=red!70!black}
+\hypersetup{xlinkbordercolor=blue!70!black}
+\hypersetup{linkcolor=blue!60!black}
+\hypersetup{urlcolor=red!50!black}
+\hypersetup{citecolor=green!30!black}
+\rfoot{Page \thepage}
+\renewcommand\lstlistlistingname{List of Listings}
+\newcommand{\linia}{\rule{\linewidth}{0.4mm}}
+
+\definecolor{listlightgray}{gray}{0.93}
+
+\newcommand{\lstsetmylst} {
+\lstset{frame = tb,
+breaklines=true,
+framerule = 0.25pt,
+float,
+fontadjust,
+backgroundcolor={\color{listlightgray}},
+basicstyle = {\ttfamily\footnotesize},
+identifierstyle = {\ttfamily},
+stringstyle = {\ttfamily},
+showstringspaces = false,
+showtabs = false,
+numbers = left,
+numbersep = 6pt,
+tabsize = 4,
+language=C,
+floatplacement=!h
+}
+}
+
+\newcommand{\lstsetatc} {
+\lstset{frame = tb,
+breaklines=true,
+framerule = 0.25pt,
+float,
+fontadjust,
+backgroundcolor={\color{listlightgray}},
+basicstyle = {\ttfamily\footnotesize},
+keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+identifierstyle = {\ttfamily},
+commentstyle = {\ttfamily\color{listcomment}\textit},
+stringstyle = {\ttfamily},
+showstringspaces = false,
+showtabs = false,
+numbers = left,
+numbersep = 6pt,
+numberstyle={\ttfamily\color{listnumbers}},
+tabsize = 4,
+language=C,
+floatplacement=!h
+}
+}
+
+\newcommand{\lstsetatbashnum} {
+\lstset{frame = tb,
+breaklines=true,
+framerule = 0.25pt,
+aboveskip=2ex,
+float,
+fontadjust,
+backgroundcolor={\color{listlightgray}},
+basicstyle = {\ttfamily\footnotesize},
+keywordstyle = {\ttfamily\color{listkeyword}\textbf},
+identifierstyle = {\ttfamily},
+commentstyle = {\ttfamily\color{listcomment}\textit},
+stringstyle = {\ttfamily},
+showstringspaces = false,
+showtabs = false,
+numbers = left,
+numbersep = 6pt,
+numberstyle={\ttfamily\color{listnumbers}},
+tabsize = 4,
+language=bash,
+floatplacement=!h
+}
+}
+\lstsetmylst
+\author{Jaroslaw M. Szumega}
+\title{}
+\engtitle{}
+\supervisor{Rafal Zdunek, D.Sc, K-4/W4}
+\field{Electronics}
+\specialisation{Advanced Applied Electronics}
+\date{15.05.2017}
+\begin{document}
+\selectlanguage{english}
+\maketitle
+\tableofcontents
+\newpage
+
+\chapter{Solution to the given problems}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot001}
+\label{fig:screenshot001}
+\end{figure}
+
+The first step will be expanding the given function, so further we can calculate the derivatives for gradient:\\
+\begin{flalign*}
+f(x) &= 100(x_2 - x_1^2)^2 + (1 - x_1)^2 \\
+&= 100 (x_2^2 - 2x_2x_1^2 + x_1^4) + (1 - 2x_1 + x_1^2) \\
+&= 100x_2^2 - 200x_2x_1^2 + 100x_1^4 + 1 - 2x_1 + x_1^2 \\
+&= 100x_1^4 + x_1^2 - 2x_1 + 100x_2^2 - 200x_2x_1^2 + 1
+\end{flalign*}
+\\
+\\
+And the point to check is:\\
+\begin{math}
+x = [x_1\ x_2]^T = [1\ 1]^T
+\end{math}
+
+The First order optimality condition is:\\
+\begin{flalign*}
+\nabla f(x^*) &= 0\\ \\
+\frac{\delta f(x)}{\delta x_2} &= 400x_1^3 + 2x_1 -2 - 400x_2x_1\\
+&= 400 + 2 - 2 - 400 = 0\\ \\
+\frac{\delta f(x)}{\delta x_1} &= 200x_2 - 200x_1^2\\
+&= 200 - 200 =  0
+\end{flalign*}
+
+In given point x = [1 1] the first--order optimality condition is fulfilled.
+
+The Second order optimality condition is:\\
+\begin{flalign*}
+\nabla f(x^*) &= 0\ (calculated\ in\ previous\ step)\\ \and
+\nabla^2 f(x^*)\ &= positive\ semi-definite\ matrix\\ \\
+\nabla^2 f(x^*)\ &= 
+\begin{bmatrix}%
+\frac{\delta^2 f(x)}{\delta x_1^2} & \frac{\delta^2 f(x)}{\delta x_1x_2}\\
+\frac{\delta^2 f(x)}{\delta x_1x_2} & \frac{\delta^2 f(x)}{\delta x_2^2}
+\end{bmatrix}\\
+&=
+\begin{bmatrix}%
+1200x_1^2 + 2 - 400x_2& - 400x_1\\
+-400x_1& 200
+\end{bmatrix}\\
+for\ point\ [1\ 1] &=
+\begin{bmatrix}%
+1200 + 2 - 400& - 400\\
+-400& 200
+\end{bmatrix}\\
+H &=
+\begin{bmatrix}%
+802& -400\\
+-400& 200
+\end{bmatrix}
+\end{flalign*}
+As it can be noticed, all principal minors are positive ($H_{1,1}\ and\ H_{2,2}$). Therefore the $H(x_*)$ is positive semi-definite.\\
+\\
+Octave code below was written to plot contour for this task.
+\begin{lstlisting}
+pkg load symbolic
+
+syms x1 x2
+f = @(x1,x2) 100.*(x2 - x1.^2).^2 + (1 - x1).^2;
+
+ezcontour(f,[-3,3])
+\end{lstlisting}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot002}
+\caption{Contour plot of given function.}
+\label{fig:screenshot002}
+\end{figure}
+
+
+
+
+
+\chapter{Listings of algorithms}
+\section{Coded selected algorithms}
+Algorithm 1 - Simplex algorithm\\ 
+\begin{lstlisting}
+
+\end{lstlisting}
+\newpage
+Algorithm 2 - Revised Simplex algorithm\\
+\begin{lstlisting}
+
+\end{lstlisting}
+\begin{thebibliography}{8}
+\addcontentsline{toc}{chapter}{Bibliography}
+%\addcontentsline{toc}{section}{Literatura}
+\bibitem{luenberger}
+Luenberger, D. G., \& Ye, Y. (2015). Linear and nonlinear programming (Vol. 228). Springer.
+\bibitem{zdunek}
+Zdunek R., Optimization Methods - lecture slides.
+\end{thebibliography}
+
+\end{document}
+
