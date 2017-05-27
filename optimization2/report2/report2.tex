@@ -174,6 +174,7 @@ f = @(x1,x2) 100.*(x2 - x1.^2).^2 + (1 - x1).^2;
 ezcontour(f,[-3,3])
 \end{lstlisting}
 
+
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\linewidth]{screenshot002}
@@ -181,9 +182,107 @@ ezcontour(f,[-3,3])
 \label{fig:screenshot002}
 \end{figure}
 
+\newpage
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{screenshot003}
+	\label{fig:screenshot003}
+\end{figure}
+Just like in the first task, we need to calculate the gradient and Hessian.//
+Then it can be determined which type of stationarity the functions have.
+\textbf{Point a)}
+\\
+\begin{align*}
+f(x) &= 2 x_{1}^{2} - x_{1} x_{2} - 3 x_{1} + \frac{x_{2}^{2}}{2} + 3.5\\
+\nabla f(x^*) &= 0\\ \\
+\frac{\delta f(x)}{\delta x_2} &= 4 x_{1} - x_{2} - 3
+\\
+\frac{\delta f(x)}{\delta x_1} &= - x_{1} + x_{2}
+\\
+\end{align*}
+To ensure the equality to zero, we can calculate that stationary point shall be:
+\begin{align*}
+x_1\ &=\ 1\\
+x_2\ &=\ 1
+\end{align*}
 
+Now we will calculate the Hessian:
+\begin{flalign*}
+\nabla f(x^*) &= 0\ (calculated\ in\ previous\ step)\\ \and
+\\
+\nabla^2 f(x^*)\ &= 
+\begin{bmatrix}%
+\frac{\delta^2 f(x)}{\delta x_1^2} & \frac{\delta^2 f(x)}{\delta x_1x_2}\\
+\frac{\delta^2 f(x)}{\delta x_1x_2} & \frac{\delta^2 f(x)}{\delta x_2^2}
+\end{bmatrix}\\
+&=
+\begin{bmatrix}%
+4& - 1\\
+-1& 1
+\end{bmatrix}\\
+H &=
+\begin{bmatrix}%
+4& - 1\\
+-1& 1
+\end{bmatrix}\\
+\end{flalign*}
+To establish the type of stationarity we need to check Hessian determinant and the values of principal minors:
+\begin{align*}
+det(H)\ =\ 4\ +\ 1\ =\ 5\ >\ 0\\
+H_{1,1}\ =\ 1\ >\ 0\\
+H_{2,2}\ =\ 4\ >\ 0\\
+\end{align*}
+The Hessian is strictly positive definite, so we have the minimizer at calculated point.\\
+\\
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{screenshot004}
+	\caption{Contour plot of point a) function.}
+	\label{fig:screenshot004}
+\end{figure}
+\textbf{Point b)}
+\\
+\begin{align*}
+f(x) &= - \frac{3 x_{1}^{2}}{2} + x_{1} x_{2} + 2 x_{1} - \frac{x_{2}^{2}}{2} - 1\\
+\nabla f(x^*) &= 0\\ \\
+\frac{\delta f(x)}{\delta x_2} &= - 3 x_{1} + x_{2} + 2
+\\
+\frac{\delta f(x)}{\delta x_1} &= x_{1} - x_{2}
+\end{align*}
+The calculated values for fulfilling the condition of $\nabla f(x^*) = 0$:
+\begin{align*}
+x_1\ &=\ 1\\
+x_2\ &=\ 1
+\end{align*}
 
-
+Now we will calculate the Hessian:
+\begin{flalign*}
+\nabla f(x^*) &= 0\ (calculated\ in\ previous\ step)\\ \and
+\\
+\nabla^2 f(x^*)\ &= 
+\begin{bmatrix}%
+\frac{\delta^2 f(x)}{\delta x_1^2} & \frac{\delta^2 f(x)}{\delta x_1x_2}\\
+\frac{\delta^2 f(x)}{\delta x_1x_2} & \frac{\delta^2 f(x)}{\delta x_2^2}
+\end{bmatrix}\\
+&=
+\begin{bmatrix}%
+-3& 1\\
+1& -1
+\end{bmatrix}\\
+H &=
+\begin{bmatrix}%
+-3& 1\\
+1& -1
+\end{bmatrix}\\
+\end{flalign*}
+To establish the type of stationarity we need to check Hessian determinant and the values of principal minors:
+\begin{align*}
+det(H)\ =\ 3\ -\ 1\ =\ 2\ >\ 0\\
+H_{1,1}\ =\ -1\ <\ 0\\
+H_{2,2}\ =\ -3\ <\ 0\\
+\end{align*}
+The Hessian is strictly negative definite, The maximizer is present.
+\\
 
 \chapter{Listings of algorithms}
 \section{Coded selected algorithms}
