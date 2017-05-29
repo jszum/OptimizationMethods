@@ -241,7 +241,6 @@ The Hessian is strictly positive definite, so we have the minimizer at calculate
 	\label{fig:screenshot004}
 \end{figure}
 \textbf{Point b)}
-\\
 \begin{align*}
 f(x) &= - \frac{3 x_{1}^{2}}{2} + x_{1} x_{2} + 2 x_{1} - \frac{x_{2}^{2}}{2} - 1\\
 \nabla f(x^*) &= 0\\ \\
@@ -283,6 +282,69 @@ H_{2,2}\ =\ -3\ <\ 0\\
 \end{align*}
 The Hessian is strictly negative definite, The maximizer is present.
 \\
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot005}
+\caption{Contour plot of point b) function.}
+\label{fig:screenshot005}
+\end{figure}
+\newpage
+\textbf{Point c)}
+
+In third point, the following function needs to be analyzed:
+\begin{align*}
+f(x) &= x_{1}^{2} + 8 x_{1} x_{2} - 10 x_{1} + \frac{x_{2}^{2}}{2} - 9 x_{2} + 4
+\end{align*}
+
+The task routine remains all the same as before:
+\begin{align*}
+\nabla f(x^*) &= 0\\ \\
+\frac{\delta f(x)}{\delta x_2} &= 2 x_{1} + 8 x_{2} - 10
+\\
+\frac{\delta f(x)}{\delta x_1} &= 8 x_{1} + x_{2} - 9
+\\
+\end{align*}
+To ensure the equality to zero, we can calculate that stationary point shall be:
+\begin{align*}
+x_1\ &=\ 1\\
+x_2\ &=\ 1
+\end{align*}
+
+Now we will calculate the Hessian:
+\begin{flalign*}
+\nabla f(x^*) &= 0\ (calculated\ in\ previous\ step)\\ \and
+\\
+\nabla^2 f(x^*)\ &= 
+\begin{bmatrix}%
+\frac{\delta^2 f(x)}{\delta x_1^2} & \frac{\delta^2 f(x)}{\delta x_1x_2}\\
+\frac{\delta^2 f(x)}{\delta x_1x_2} & \frac{\delta^2 f(x)}{\delta x_2^2}
+\end{bmatrix}\\
+&=
+\begin{bmatrix}%
+2& 8\\
+8& 1
+\end{bmatrix}\\
+H &=
+\begin{bmatrix}%
+2& 8\\
+8& 1
+\end{bmatrix}\\
+\end{flalign*}
+To establish the type of stationarity we need to check Hessian determinant and the values of principal minors:
+\begin{align*}
+det(H)\ =\ 2\ -\ 64\ =\ -62\ <\ 0\\
+\end{align*}
+The determinant of Hessian is smaller than zero -- at this point we know that the critical point of function is a saddle point.
+\\
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot006}
+\caption{The contour plot of point c) function.}
+\label{fig:screenshot006}
+\end{figure}
+
 
 \chapter{Listings of algorithms}
 \section{Coded selected algorithms}
