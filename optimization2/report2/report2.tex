@@ -174,15 +174,22 @@ f = @(x1,x2) 100.*(x2 - x1.^2).^2 + (1 - x1).^2;
 ezcontour(f,[-3,3])
 \end{lstlisting}
 
-
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.7\linewidth]{screenshot002}
 \caption{Contour plot of given function.}
 \label{fig:screenshot002}
 \end{figure}
+\newpage
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{screenshot007}
+	\caption{Contour plot of function in 3D version.}
+	\label{fig:screenshot007}
+\end{figure}
 
 \newpage
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\linewidth]{screenshot003}
@@ -232,14 +239,26 @@ det(H)\ =\ 4\ +\ 1\ =\ 5\ >\ 0\\
 H_{1,1}\ =\ 1\ >\ 0\\
 H_{2,2}\ =\ 4\ >\ 0\\
 \end{align*}
+
 The Hessian is strictly positive definite, so we have the minimizer at calculated point.\\
 \\
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\linewidth]{screenshot004}
 	\caption{Contour plot of point a) function.}
 	\label{fig:screenshot004}
 \end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot008}
+\caption{And its 3D version. We can notice the minimum.}
+\label{fig:screenshot008}
+\end{figure}
+
+\clearpage
+
 \textbf{Point b)}
 \begin{align*}
 f(x) &= - \frac{3 x_{1}^{2}}{2} + x_{1} x_{2} + 2 x_{1} - \frac{x_{2}^{2}}{2} - 1\\
@@ -288,7 +307,16 @@ The Hessian is strictly negative definite, The maximizer is present.
 \caption{Contour plot of point b) function.}
 \label{fig:screenshot005}
 \end{figure}
-\newpage
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot009}
+\caption{3D version with maximum observed.}
+\label{fig:screenshot009}
+\end{figure}
+
+
+\clearpage
 \textbf{Point c)}
 
 In third point, the following function needs to be analyzed:
@@ -345,7 +373,54 @@ The determinant of Hessian is smaller than zero -- at this point we know that th
 \label{fig:screenshot006}
 \end{figure}
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot010}
+\caption{Visualization of point c) saddlepoint.}
+\label{fig:screenshot010}
+\end{figure}
 
+\clearpage
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot011}
+\label{fig:screenshot011}
+\end{figure}
+
+To ensure the function is convex, the presented matrix:\\
+\begin{math}
+\begin{bmatrix}
+\alpha & 1 & 1\\
+3& 2& 1\\
+2& 2& 3\\
+\end{bmatrix}
+\end{math}
+has to be strictly positive--definite.
+Following this requirements, it needs to fulfill the following conditions:
+\begin{itemize}
+	\item matrix determinant > 0,
+	\item first principal minor > 0.
+\end{itemize}
+So now we establish the determinant:\\
+\begin{align*}
+det(G) &= 6\alpha + 2 + 6 -4 - 2\alpha - 9\\
+ &= 4 \alpha - 5
+ \\
+ 4\alpha -5 &> 0\\
+ \alpha &> 5/4
+\end{align*}
+
+And the first principal minor:\\
+\begin{align*}
+det(M1) &= 2\alpha - 3\\
+\\
+2\alpha -3 &> 0\\
+\alpha &> 3/2
+\end{align*}
+
+In the end, if $alpha > 1.5$, then the given function will be convex.
+
+\clearpage
 \chapter{Listings of algorithms}
 \section{Coded selected algorithms}
 Algorithm 1 - Simplex algorithm\\ 
