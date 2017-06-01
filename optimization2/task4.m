@@ -1,10 +1,16 @@
 pkg load symbolic
 
-syms x y;
-f = (x.^2 + y - 11).^2 + (x + y.^2 - 7).^2;
-fs = function_handle(f);
+x0 = [-5,-5];
+err = 1e-5;
+a = 1;
+gdescent(@himmelblau, x0, err,a)
 
-d = 6
-[x, y] = meshgrid(-d:0.01:d);
-g = (x.^2 + y - 11).^2 + (x + y.^2 - 7).^2;
-contour3(x,y,g,200);
+%d = 6
+%[x, y] = meshgrid(-d:0.01:d);
+%g = (x.^2 + y - 11).^2 + (x + y.^2 - 7).^2;
+%
+%
+%x0 = [-5,-5];
+%err = 1e-5;
+%a = 1;
+%x_solution = gdescent(f,x0,err,a)
