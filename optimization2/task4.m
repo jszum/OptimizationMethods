@@ -1,16 +1,19 @@
 pkg load symbolic
 
-x0 = [-5,-5];
-err = 1e-5;
+err = 1e-6;
 a = 1;
-gdescent(@himmelblau, x0, err,a)
 
-%d = 6
-%[x, y] = meshgrid(-d:0.01:d);
-%g = (x.^2 + y - 11).^2 + (x + y.^2 - 7).^2;
-%
-%
-%x0 = [-5,-5];
-%err = 1e-5;
-%a = 1;
-%x_solution = gdescent(f,x0,err,a)
+%for i=1:30
+%    x = [-5+10*((i-1)/29), -5+10*((i-1)/29)];
+%    #[solution] = gdescent_backtrack(@himmelblau_explicit, x, err,a);
+%    #[solution] = bfgs(@himmelblau_explicit, x);
+%    [solution] = PolakRibiere(@himmelblau_explicit, x);
+%    
+%    printf ("[%f %f]; [%f %f]\n",x(1), x(2), solution(1), solution(2));
+%end
+
+
+x = [5,5];
+tic
+[solution] = gdescent_backtrack(@himmelblau_explicit, x, err,a)
+toc

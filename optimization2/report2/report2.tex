@@ -398,8 +398,8 @@ To ensure the function is convex, the presented matrix:\\
 has to be strictly positive--definite.
 Following this requirements, it needs to fulfill the following conditions:
 \begin{itemize}
-	\item matrix determinant > 0,
-	\item first principal minor > 0.
+	\item matrix determinant $>$ 0,
+	\item first principal minor $>$ 0.
 \end{itemize}
 So now we establish the determinant:\\
 \begin{align*}
@@ -419,6 +419,151 @@ det(M1) &= 2\alpha - 3\\
 \end{align*}
 
 In the end, if $alpha > 1.5$, then the given function will be convex.
+\clearpage 
+
+%task4
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot012}
+\label{fig:screenshot012}
+\end{figure}
+
+For better insight of the problem, the contour plot of the Himmelblau function was shown/
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot013}
+\caption{Contour plot of Himmelblau function.}
+\label{fig:screenshot013}
+\end{figure}
+
+On the figure \ref{fig:screenshot013} can observe the four regions that are supposed to be the listed minimas.\\ \\
+Considering the nature of the presented function, we can assume that depending on the starting point the algorithms will hit one of them. Of course there is also a possibility that method would not converge and will give a result that is not expected.
+\\
+\\
+At the very beginning, there was an variant of the coded functions that symbolically calculated the necessary functions:
+\begin{lstlisting}
+function [f0,g0] = himmelblau(xp)
+
+syms x y
+f = (x.^2 + y - 11).^2 + (x + y.^2 - 7).^2;
+fs = function_handle(f);
+f0 = fs(xp(1),xp(2));
+
+g = gradient(f)';
+gs = function_handle(g);
+g0 = gs(xp(1),xp(2));
+
+endfunction
+\end{lstlisting}
+Unfortunately, it turned out, that it is not the best approach. The calculations time was long -- it took almost 70 seconds to calculate the minimum for one entry:
+\begin{lstlisting}
+Entry = [5, 5]
+
+solution = 
+-3.7793  -3.2832
+Elapsed time is 66.5192 seconds.
+\end{lstlisting}
+Definitely, it is too long. So it was decided to hardcode the function and its gradient in a form that can be directly evaluated with argument in the future:
+\begin{lstlisting}
+function [f,gf] = himmelblau_explicit(x)
+	f = (x(1).^2 + x(2) - 11).^2 + (x(1) + x(2).^2 - 7).^2;
+	
+	gf = [2*(2*x(1)*(x(1).^2 + x(2) - 11) + x(1) + x(2).^2 - 7); 2*(x(1).^2 + 2*x(2)*(x(1) + x(2).^2 - 7) + x(2) - 11)];
+end
+\end{lstlisting}
+
+The explicit way of defining either function and gradient resulted in great speed--up (it is over 300x faster than symbolic operations). \begin{lstlisting}
+Entry = [5, 5]
+
+solution =
+-3.2832  -3.2832
+Elapsed time is 0.021183 seconds.
+\end{lstlisting}
+
+
+The table on the \ref{fig:screenshot014} presents the result of used algorithms.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\linewidth]{screenshot014}
+\caption{Starting point along with the corresponding hit minima for each algorithms.}
+\label{fig:screenshot014}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot015}
+\label{fig:screenshot015}
+\end{figure}
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\linewidth]{screenshot019}
+\label{fig:screenshot019}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\linewidth]{screenshot018}
+\caption{Two contour plots of the Rosenbrock functions (called also the valley/banana function.)}
+\label{fig:screenshot018}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\clearpage
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot016}
+\label{fig:screenshot016}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+\clearpage
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot017}
+\label{fig:screenshot017}
+\end{figure}
+
+
+
+
+
+
 
 \clearpage
 \chapter{Listings of algorithms}
@@ -435,10 +580,15 @@ Algorithm 2 - Revised Simplex algorithm\\
 \begin{thebibliography}{8}
 \addcontentsline{toc}{chapter}{Bibliography}
 %\addcontentsline{toc}{section}{Literatura}
-\bibitem{luenberger}
-Luenberger, D. G., \& Ye, Y. (2015). Linear and nonlinear programming (Vol. 228). Springer.
+\bibitem{nocedal}
+J. Nocedal, S. J. Wright, Numerical Optimization, Springer, 1999,
 \bibitem{zdunek}
 Zdunek R., Optimization Methods - lecture slides.
+\bibitem{mathworks}
+Mathworks webpage, "Unconstrained Optimization Algorithms", https://www.mathworks.com/help/optim/ug/unconstrained-nonlinear-optimization-algorithms.html
+\bibitem{uni}
+Nonlinear Programming course webpage, North Carolina State University,
+http://www4.ncsu.edu/~kksivara/ma706/
 \end{thebibliography}
 
 \end{document}
