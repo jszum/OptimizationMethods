@@ -12,10 +12,10 @@ tic
 [solution] = gdescent_backtrack(@rosenbrock_explicit, x1, err,a)
 toc
 
-x2 = [-1.2, 1]
-tic
-[solution] = gdescent_backtrack(@rosenbrock_explicit, x2, err,a)
-toc
+%x2 = [-1.2, 1]
+%tic
+%[solution] = gdescent_backtrack(@rosenbrock_explicit, x2, err,a)
+%toc
 %[X1, X2] = meshgrid(-10:0.01:10);
 %fun = 100.*(X2 - X1.^2).^2 + (1 - X1).^2;
 %contour3(X1,X2,fun,200)

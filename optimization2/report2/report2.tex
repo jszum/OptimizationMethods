@@ -576,29 +576,54 @@ a =  0.0019531
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+%task6
 \clearpage
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.7\linewidth]{screenshot016}
-\label{fig:screenshot016}
+\includegraphics[width=0.7\linewidth]{screenshot021}
+\label{fig:screenshot021}
+\end{figure}
+
+Firstly, the gradient and Hessian will be computed:
+\begin{flalign*}
+\nabla f &=
+\begin{bmatrix}
+-40x_1(x_2 - x_1^2)- 2(1-x_1)\\
+20(x_2-x_1^2)
+\end{bmatrix}
+\\
+\nabla^2 f &=
+\begin{bmatrix}
+-40x_2+120x_1^2+2& -40x_1\\
+-40x_1& 20
+\end{bmatrix}
+\\
+\end{flalign*}
+We assume that p* is a solution of given model, only if there exist $\lambda > 0$ and:\\
+$(B+\lambda I)p^* = -\nabla f$\\
+$\lambda(\Delta - ||p^*|| = 0)$\\
+
+At x = [0, -1]:
+\\
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\linewidth]{screenshot022}
+\label{fig:screenshot022}
+\end{figure}
+
+The same calculations can be performed for the second point.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\linewidth]{screenshot023}
+\caption{Contour and zoomed solutions for the point x = (0,-1)}
+\label{fig:screenshot023}
+\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\linewidth]{screenshot024}
+\caption{Plots for the second x point.}
+\label{fig:screenshot024}
 \end{figure}
 
 
@@ -610,6 +635,49 @@ a =  0.0019531
 
 
 
+
+
+%task7
+\clearpage
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot016}
+\label{fig:screenshot016}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{screenshot002}
+	\caption{Contour plot of Rosenbrock's function.}
+	\label{fig:screenshot002}
+\end{figure}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{screenshot007}
+	\caption{Contour plot of Rosenbrock's function in 3D version.}
+	\label{fig:screenshot007}
+\end{figure}
+
+The both methods were tested along with given results, but also with limited iterations (again the fall into endless loop was experienced):
+\begin{lstlisting}
+Fletcher-Reeves algorithm
+
+solution =
+1.0560  1.1234
+Elapsed time is 2.1183 seconds.
+
+
+Polak-Ribiere algorithm
+solution =
+1.0075  1.1003
+Elapsed time is 1.821183 seconds.
+\end{lstlisting}
+
+
+
+
+
+
+%task8
 \clearpage
 \begin{figure}[h]
 \centering
@@ -617,7 +685,14 @@ a =  0.0019531
 \label{fig:screenshot017}
 \end{figure}
 
+The matrix A is recognized as a Hilbert matrix, therefore the corresponding Octave function was used to initialize it.\\
+The error was set to $1e-6$ and then the CG algorithm was used to perform needed calculations and the result are plotted on the image below.
 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot020}
+\label{fig:screenshot020}
+\end{figure}
 
 
 
@@ -626,14 +701,192 @@ a =  0.0019531
 \clearpage
 \chapter{Listings of algorithms}
 \section{Coded selected algorithms}
-Algorithm 1 - Simplex algorithm\\ 
+
+\
+
+Algorithm - Gradient Descent algorithm\\
 \begin{lstlisting}
+function [x0, k] = gdescent_backtrack (fun,x0,err,a)
+
+rho = 0.5;
+c = 0.0001;
+
+df = 1;
+xk = x0;
+k = 1;
+while ((norm(df) > err))
+	[f,df] = fun(x0);
+	a = backtracking(fun,x0,-df, rho, c);
+	if(mod(k,100)==0) 
+	iteration = k
+	a 
+	endif
+	x0 = x0 - a*df;
+	k = k+1;
+end
+
+endfunction
+\end{lstlisting}
+
+Algorithm - Conjugate Gradient algorithm\\
+\begin{lstlisting}
+function [x, n, res,rx] = conjugate_gradient(A, f, x0, it, err)
+
+x = x0;        
+r = f - A*x0; 
+p = r;         
+r1 = r'*r;
+n = 0;  
+
+normf = norm(f);
+
+while (norm(r)/normf > err)   % tolerance condition
+	a = A*p;
+	alpha = r1/(a'*p);   
+	       
+	x = x + alpha*p;            
+	r = r - alpha*a;   
+	       
+	r2 = r'*r;                  
+	beta = r2/r1;               
+	p = r + beta * p;    
+
+	r1 = r2;
+	n = n + 1;
+	
+	res(n) = norm(f - A*x); 
+	rx(n) = norm(x - x0);
+	if (n == it)         
+		break
+	endif
+endwhile
+endfunction
 
 \end{lstlisting}
-\newpage
-Algorithm 2 - Revised Simplex algorithm\\
-\begin{lstlisting}
 
+Algorithm - Polak-Ribiere algorithm\\
+\begin{lstlisting}
+function [x,f] = ribiere(fun, x, iter)
+[f,df] = fun(x);
+
+p = -df;
+alpham = 0.01;
+k = 0;
+
+while ( k<iter && f!=0 )
+	a = strongwolfe(fun,p,x,alpham);
+	
+	[f,df] = fun(x);
+	x = x + a*p;
+	[f1,df1] = fun(x);
+	
+	B = dot(df1',(df1-df)) / norm(df)^2;
+	p = -df1 + B*p;
+	df=df1;
+	f=f1;
+	
+	k = k+1;
+endwhile
+endfunction
+\end{lstlisting}
+\newpage
+Algorithm - Fletcher-Reeves algorithm\\
+\begin{lstlisting}
+function [x,f] = fletcherReeves(fun, x, iter)
+
+[f,df] = fun(x);
+p = -df;
+
+alpham = 0.01;
+k = 0;
+
+while ( k<iter && f!=0 )
+	a = strongwolfe(fun,p,x,alpham);
+	
+	[f,df] = fun(x);
+	x = x + a*p;
+	[f1,df1] = fun(x);
+	
+	B = dot(df1',df1) / dot(df',df);
+	p = -df1 + B*p;
+	df=df1;
+	f=f1;
+	
+	k = k+1;
+
+endwhile
+endfunction
+\end{lstlisting}
+\newpage
+Strategy - Strongwolfe algorithm \cite{uni}\\
+\begin{lstlisting}
+function alphas = strongwolfe(f,d,x0,alpham)
+
+alpha0 = 0;
+alphap = alpha0;
+alphas = 0;
+
+c1 = 1e-4;
+c2 = 0.5;
+
+alphax = alpham;
+
+[fx0,gx0] = feval(f,x0)
+fxp = fx0;
+gxp = gx0;
+i=1;
+
+
+while (i<1000)
+	xx = x0 + alphax*d;
+	[fxx,gxx] = feval(f,xx);
+	
+	if (fxx > dot(fx0 + c1*alphax*gx0,fx0 + c1*alphax*gx0) || ((i > 1) && (fxx >= fxp)))
+		alphas = zoom(f,x0,d,alphap,alphax);
+		return;
+	end
+	
+	if ( dot(abs(gxx),abs(gxx)) <= dot(-c2*gx0,-c2*gx0) )
+		alphas = alphax;
+		return;
+	end
+	
+	if ( dot(gxx,gxx) >= 0 )
+		alphas = zoom(f,x0,d,alphax,alphap);
+		return;
+	end
+	
+	alphap = alphax;
+	fxp = fxx;
+	gxp = gxx;
+	
+	alphax = alphax + (alpham-alphax);
+	i = i+1;
+	end
+	
+	if (alphas==0)
+	alphas = alphax; 
+endwhile
+endfunction
+\end{lstlisting}
+\newpage
+Strategy - Backtracking line search \cite{uni}\\
+\begin{lstlisting}
+function a = backtracking(fun,x,d, rho, c)
+a = 1;
+
+[fk, gk] = fun(x);
+xx = x;
+x = x + a*d;
+fk1 = fun(x);
+
+while (fk1 > (fk + c*a*(gk'*d))),
+
+a = a*rho;
+x = xx + a*d;
+fk1 = fun(x);
+
+end
 \end{lstlisting}
 \begin{thebibliography}{8}
 \addcontentsline{toc}{chapter}{Bibliography}
@@ -647,6 +900,9 @@ Mathworks webpage, "Unconstrained Optimization Algorithms", https://www.mathwork
 \bibitem{uni}
 Nonlinear Programming course webpage, North Carolina State University,
 http://www4.ncsu.edu/~kksivara/ma706/
+\bibitem{uni2}
+University of Chicago, CG convergence lecture (for Fletcher-Reeves algorithm), 
+http://www.mcs.anl.gov/~anitescu/CLASSES/2011/LECTURES/STAT310-2011-lec6.pdf
 \end{thebibliography}
 
 \end{document}

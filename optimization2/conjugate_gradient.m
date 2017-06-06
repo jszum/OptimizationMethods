@@ -1,14 +1,14 @@
-function [x, n, res,rx] = conjugate_gradient(A, f, x0, error, it)
-disp('conjugate gradient: ');
+function [x, n, res,rx] = conjugate_gradient(A, f, x0, tolerance, it)
+
 x = x0;         % initial value
 r = f - A*x0;   % initial solution
 p = r;         
 r1 = r'*r;
 n = 0;     % number of iteration for residual error
-%flag = 0;      
-normf = norm(f);
 
-while (norm(r)/normf > error)   % tolerance condition
+normf = norm(f);
+ 
+while (norm(r)/normf > tolerance)   % tolerance condition
     a = A*p;
     alpha = r1/(a'*p);          % step 1 - compute alpha
     x = x + alpha*p;            % step 2 - compute next x
