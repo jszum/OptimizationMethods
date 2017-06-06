@@ -233,7 +233,7 @@
 \newcommand{\@napisProwadzacy}{Prowadz\k{a}cy prac\k{e}:}
 \newcommand{\@napisOcena}{Ocena pracy:}
 \if@eng
-\renewcommand{\@naglowek}{Optimization Methods:\\Linear programming}
+\renewcommand{\@naglowek}{Optimization Methods:\\Unconstrained Optimization}
 \renewcommand{\@napisProwadzacy}{Supervisor:}
 \renewcommand{\@napisOcena}{Grade:}
 \fi
