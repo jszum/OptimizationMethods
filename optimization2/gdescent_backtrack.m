@@ -6,7 +6,7 @@ c = 0.0001;
 df = 1;
 xk = x0;
 k = 1;
-  while ((norm(df) > err) && k != 10)
+  while ((norm(df) > err))
       [f,df] = fun(x0);
       a = backtracking(fun,x0,-df, rho, c);
       x0 = x0 - a*df;

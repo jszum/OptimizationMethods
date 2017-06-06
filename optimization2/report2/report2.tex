@@ -510,8 +510,18 @@ The table on the \ref{fig:screenshot014} presents the result of used algorithms.
 \caption{Two contour plots of the Rosenbrock functions (called also the valley/banana function.)}
 \label{fig:screenshot018}
 \end{figure}
+There was trial of calculus using both initial points. Gradient Descent in the first case found the minimum [1, 1]:
+\begin{lstlisting}
+x1 = [1.2, 1.2]
 
+iterations  =  13013
 
+solution =
+1.0000   1.0000
+
+Elapsed time is 22.0776 seconds.
+\end{lstlisting} 
+In the case of "more dificult" initial point, the GS algorithm was stuck. Running in debug mode has proven that it fail during backtracking search and goes into infinite loop.
 
 
 
