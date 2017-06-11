@@ -1,0 +1,60 @@
+#!/usr/bin/python
+
+from sympy import diff, Symbol, latex, Matrix
+
+
+def optimization(function, x1, x2):
+
+	print latex(function)
+
+	#calculating the gradient's elements
+	firstx1 = diff(function, x1)
+	firstx2 = diff(function, x2)
+
+	print firstx1.expand()
+	print firstx2.expand()
+
+
+	#calculations for Hessian elements
+	secondx1x1 = diff(function, x1, x1)
+	secondx1x2 = diff(function, x1, x2)
+	secondx2x1 = diff(function, x2, x1)
+	secondx2x2 = diff(function, x2, x2)
+
+	print "\n Hessian elements:\n\n"
+	print latex(secondx1x1) +"\t" + latex(secondx1x2)
+	print latex(secondx2x1) + "\t"+latex(secondx2x2)
+
+
+	point1 = [0.46557, 2.1479]
+	point2 = [-1.0, -0.5]
+	point3 = [-1.0/3, -7.0/54]
+
+	point = point3
+	print secondx1x1.subs(x1, point[0]).subs(x2, point[1]);
+	print secondx1x2.subs(x1, point[0]).subs(x2, point[1]);
+	print secondx2x1.subs(x1, point[0]).subs(x2, point[1]);
+	print secondx2x2.subs(x1, point[0]).subs(x2, point[1]);
+	print "\n\n"
+	print function.subs(x1, point[0]).subs(x2, point[1]);
+
+
+
+def matrix():
+	a = Symbol('a')
+	M = Matrix([a, 1, 1],[3, 2, 1],[2, 2, 3])
+	print M
+
+def main():
+	x1 = Symbol('x1')
+	x2 = Symbol('x2')
+
+	f1 = x1**3 + 3*x1**2 + 3*x1 - x2
+	f2 = x1**2+2*x1 -x2 + 1
+	f = (f1**2 + f2**2)/2	
+	
+	function = f.expand()
+	optimization(function, x1,x2)
+
+
+main()
