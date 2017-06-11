@@ -136,66 +136,127 @@ f(x) &= \frac{1}{2}(F_1^2 + F_2^2)\\
 &= \frac{1}{2}(x_1^6 + 6x_1^5 + 16x_1^4 - 2x_1^3x_2 + 22x_1^3 - 8x_1^2x_2 + 15x_1^2 - 10x_1x_2 + 4x_1 + 2x_2^2 - 2x_2 + 1)
 \end{flalign*}
 \\
-And the point to check is:\\
-\begin{math}
-x = [x_1\ x_2]^T = [1\ 1]^T
-\end{math}
+And the points to check are:\\
+\begin{flalign*}
+x^* &= [0.46557\ 2.1479]^T\\
+x_1 &= [-1\ -0.5]^T\\
+x_2 &= [-\frac{1}{3}\ -\frac{7}{54}]^T
+\end{flalign*}
+\\
+Firstly, we can calculate the cost function gradient to verify above--mentioned points:
 
-The First order optimality condition is:\\
 \begin{flalign*}
 \nabla f(x^*) &= 0\\ \\
-\frac{\delta f(x)}{\delta x_2} &= 400x_1^3 + 2x_1 -2 - 400x_2x_1\\
-&= 400 + 2 - 2 - 400 = 0\\ \\
-\frac{\delta f(x)}{\delta x_1} &= 200x_2 - 200x_1^2\\
-&= 200 - 200 =  0
+\frac{\delta f(x)}{\delta x_1} &= 3 x_{1}^{5} + 15 x_{1}^{4} + 32 x_{1}^{3} - 3 x_{1}^{2} x_{2} + 33 x_{1}^{2} - 8 x_{1} x_{2} + 15 x_{1} - 5 x_{2} + 2\\
+\frac{\delta f(x)}{\delta x_2} &= - x_{1}^{3} - 4 x_{1}^{2} - 5 x_{1} + 2 x_{2} - 1\\
 \end{flalign*}
 
-In given point x = [1 1] the first--order optimality condition is fulfilled.
-
-The Second order optimality condition is:\\
+And in fact, the mentioned in task description points are recognized as a solutions of the cost function gradient.\\
+\\
+To check their nature, we need to calculate the Hessian and evaluate it according to the stationary points.
 \begin{flalign*}
-\nabla f(x^*) &= 0\ (calculated\ in\ previous\ step)\\ \and
-\nabla^2 f(x^*)\ &= positive\ semi-definite\ matrix\\ \\
-\nabla^2 f(x^*)\ &= 
+\nabla^2 f(x)\ &= 
 \begin{bmatrix}%
 \frac{\delta^2 f(x)}{\delta x_1^2} & \frac{\delta^2 f(x)}{\delta x_1x_2}\\
 \frac{\delta^2 f(x)}{\delta x_1x_2} & \frac{\delta^2 f(x)}{\delta x_2^2}
 \end{bmatrix}\\
-&=
-\begin{bmatrix}%
-1200x_1^2 + 2 - 400x_2& - 400x_1\\
--400x_1& 200
-\end{bmatrix}\\
-for\ point\ [1\ 1] &=
-\begin{bmatrix}%
-1200 + 2 - 400& - 400\\
--400& 200
-\end{bmatrix}\\
-H &=
-\begin{bmatrix}%
-802& -400\\
--400& 200
-\end{bmatrix}
 \end{flalign*}
-As it can be noticed, all principal minors are positive ($H_{1,1}\ and\ H_{2,2}$). Therefore the $H(x_*)$ is positive semi-definite.\\
+\begin{flalign*}
+\nabla^2 f(x)\ &= 
+\begin{bmatrix}%
+15 x_{1}^{4} + 60 x_{1}^{3} + 96 x_{1}^{2} - 6 x_{1} x_{2} + 66 x_{1} - 8 x_{2} + 15& - 3 x_{1}^{2} + 8 x_{1} + 5\\
+- 3 x_{1}^{2} + 8 x_{1} + 5& 2
+\end{bmatrix}\\
+for\ point\ [0.46557\ 2.1479] &=
+\begin{bmatrix}%
+50.11& -9.37\\
+-9.37&2\\
+\end{bmatrix}\\
+det > 0, M1 > 0, f(x) = 5.01e-11, &\ there\ is\ a\ minimum\ (global)
 \\
-Octave code below was written to plot contour for this task.
+\\
+for\ point\ [-1\ -0.5] &=
+\begin{bmatrix}%
+1& 0\\
+0&2
+\end{bmatrix}\\
+det > 0, M1 > 0, f(x) = 0.25, &\ there\ is\ a\ minimum
+\\
+\\
+for\ point\ [-\frac{1}{3}\ -\frac{7}{54}] &=
+\begin{bmatrix}%
+2.41&-2.66\\
+-2.66&2\\
+\end{bmatrix}\\
+det < 0, M1 > 0, f(x) = 0.33, &\ there\ is\ a\ saddle\ point
+\end{flalign*}
+
+
+To make all the calculations above, the following script in Python was written to perform symbolic computations:
+\newpage
 \begin{lstlisting}
-pkg load symbolic
+#!/usr/bin/python
 
-syms x1 x2
-f = @(x1,x2) 100.*(x2 - x1.^2).^2 + (1 - x1).^2;
+from sympy import diff, Symbol, latex, Matrix
 
-ezcontour(f,[-3,3])
+
+def optimization(function, x1, x2):
+
+	print latex(function)
+	
+	#calculating the gradient's elements
+	firstx1 = diff(function, x1)
+	firstx2 = diff(function, x2)
+	
+	print firstx1.expand()
+	print firstx2.expand()
+	
+	
+	#calculations for Hessian elements
+	secondx1x1 = diff(function, x1, x1)
+	secondx1x2 = diff(function, x1, x2)
+	secondx2x1 = diff(function, x2, x1)
+	secondx2x2 = diff(function, x2, x2)
+	
+	print "\n Hessian elements:\n\n"
+	print latex(secondx1x1) +"\t" + latex(secondx1x2)
+	print latex(secondx2x1) + "\t"+latex(secondx2x2)
+	
+	
+	point1 = [0.46557, 2.1479]
+	point2 = [-1.0, -0.5]
+	point3 = [-1.0/3, -7.0/54]
+	
+	point = point3
+	print secondx1x1.subs(x1, point[0]).subs(x2, point[1]);
+	print secondx1x2.subs(x1, point[0]).subs(x2, point[1]);
+	print secondx2x1.subs(x1, point[0]).subs(x2, point[1]);
+	print secondx2x2.subs(x1, point[0]).subs(x2, point[1]);
+	print "\n\n"
+	print function.subs(x1, point[0]).subs(x2, point[1]);	
+
+
+def main():
+	x1 = Symbol('x1')
+	x2 = Symbol('x2')
+	
+	f1 = x1**3 + 3*x1**2 + 3*x1 - x2
+	f2 = x1**2+2*x1 -x2 + 1
+	f = (f1**2 + f2**2)/2	
+	
+	function = f.expand()
+	optimization(function, x1,x2)
+
+main()
 \end{lstlisting}
+\newpage
 
+%task2
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.7\linewidth]{screenshot002}
-\caption{Contour plot of given function.}
-\label{fig:screenshot002}
+\includegraphics[width=0.7\linewidth]{screenshot003}
+\label{fig:screenshot003}
 \end{figure}
-\newpage
 
 \clearpage
 \chapter{Listings of algorithms}
