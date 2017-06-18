@@ -322,6 +322,108 @@ Elapsed time is 0.00764704 seconds.
 \caption{Contour plot of cost function}
 \label{fig:screenshot006}
 \end{figure}
+\clearpage
+
+
+
+
+%task4
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot007}
+\label{fig:screenshot007}
+\end{figure}
+To complete this task, the \textbf{lsqnonlin} function was used.\\
+In order to make this experiment more interesting, here will be shown its usage in two ways:
+\begin{itemize}
+	\item without using Jacobian calculations,
+	\item with Jacobian calculations. It will be turned on using Octave options.
+\end{itemize}
+There fore there was prepared two versions of evaluation function to pass to the lsgnonlin:\begin{lstlisting}
+function [F,J] = fun_4(x)
+	k = 1:10;
+	F = 2 + 2*k-exp(k*x(1))-exp(k*x(2));
+endfunction
+
+function [F,J] = fun_4_Jacobian(x)
+	k = 1:10;
+	
+	F = 2 + 2*k-exp(k*x(1))-exp(k*x(2));
+	
+	J = zeros(10,2);
+	J(k,1) = -k.*exp(k*x(1));
+	J(k,2) = -k.*exp(k*x(2));
+endfunction
+\end{lstlisting}
+
+The call end execution looked like this:
+\begin{lstlisting}
+x0 = [0.3; 0.4];
+tic
+[x,resnorm,res,eflag, output]= lsqnonlin(@fun_4,x0);
+toc
+
+
+opts = optimset ("Jacobian", "on")
+tic
+[x,resnorm,res,eflag,output_jacobian] = lsqnonlin(@fun_4_Jacobian,x0,[],[],opts);
+toc
+\end{lstlisting}
+
+And the following results were obtained:
+\begin{lstlisting}
+
+Calculations without Jacobian:
+
+Elapsed time is 0.0594881 seconds.
+x =	0.25803		0.25993
+
+output =
+niter =  17
+
+
+
+Calculations with Jacobian
+
+Elapsed time is 0.1645 seconds.
+x =	0.25782		0.25823
+
+output_jacobian =
+niter =  122
+\end{lstlisting}
+
+As it can be observed, both methods obtained the same values, however Jacobian calculations lasted 3 times more and also performed more iterations (almost 7 times).
+
+\clearpage
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot008}
+\label{fig:screenshot008}
+\end{figure}
+
+To calculate this task, the model of Shockley diode was coded into a function:
+\begin{lstlisting}
+function [F]=fun_5_Shockley(x,U)
+fi=0.026;
+
+F = x(1) * (exp(U/(x(2)*fi))-1); 
+end
+\end{lstlisting}
+
+
+After projection of the data to the \textbf{I} current values, it was possible to use Octave curve fitting:
+\begin{lstlisting}
+x_est = lsqcurvefit(@fun_5_Shockley, x0, Uvalues, Ivalues);
+\end{lstlisting}
+The result of curve fitting is quite promising. For x = [1.0540e-09, 1.1924e+00], we obtained:
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\linewidth]{screenshot009}
+\caption{Curve fitting (LS) with Octave.}
+\label{fig:screenshot009}
+\end{figure}
 
 \clearpage
 \chapter{Listings of algorithms}
