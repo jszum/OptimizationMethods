@@ -1,5 +1,6 @@
 clear;
 pkg load symbolic
+
 syms x1 x2;
 F1=x1^3+3*x1^2+3*x1-x2;
 F2=x1^2+2*x1-x2+1;

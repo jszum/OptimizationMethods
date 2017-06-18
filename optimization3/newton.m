@@ -1,4 +1,4 @@
-function [x,k] = newton(fun,x,err)
+function [x,iteration] = newton(fun,x,err)
   stop = 2*err;
   iter = 0;
   while stop > err
@@ -10,5 +10,5 @@ function [x,k] = newton(fun,x,err)
       iter = iter + 1;
   endwhile
   
-  iteration = iter
+  iteration = iter;
 endfunction

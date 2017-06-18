@@ -1,5 +1,5 @@
-function [f,j] = fun_3(x)
-f = [2*x(1) - x(2) - exp(-x(1));
-      -x(1) + 2*x(2) - exp(-x(2))];
-j = [ 2+exp(-x(1)), -1 ; -1, 2+exp(-x(2)) ];
-end
+function [f,j] = fun_4(x)
+  k=1:10;
+  f = (2+2.*k-exp(k.*x(1))-exp(k.*x(2))).^2;   
+  j = [-exp(k.*x(1)); -exp(k.*x(2)) ];
+endfunction
