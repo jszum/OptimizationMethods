@@ -435,6 +435,54 @@ The result of curve fitting is quite promising. For x = [1.0540e-09, 1.1924e+00]
 \label{fig:screenshot010}
 \end{figure}
 
+The following functions to code each model was written:
+\begin{lstlisting}
+function [F] = fun6_log(x,d)
+	alpha = x(1);
+	beta = x(2);
+	
+	F = alpha + beta * log(d);
+end
+
+function F = fun6_quad(x,d)
+	alpha = x(1);
+	beta = x(2);
+	gamma = x(3);
+	
+	F = alpha + beta*d + gamma*d.^2;
+end
+
+function F = fun6_cubic(x,d)
+	alpha = x(1);
+	beta = x(2);
+	gamma = x(3);
+	delta = x(4);
+	
+	F = alpha + beta*d + gamma*d.^2 + delta*d.^3;
+end
+\end{lstlisting}
+The curve fitting process resulted in the following results:
+\begin{table}[h]
+\centering
+\includegraphics[width=1\linewidth]{screenshot012}
+\caption{Parameters calculated for different models of EM propagation}
+\label{fig:screenshot012}
+\end{table}
+
+As the next plots presents, the log model was the best fitting.
+\newpage
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot013}
+\includegraphics[width=0.7\linewidth]{screenshot014}
+\includegraphics[width=0.7\linewidth]{screenshot015}
+\caption{Model versus log, quadratic and cubic estimation (from top).}
+\label{fig:screenshot013}
+\end{figure}
+
+
+
+
 %task7
 \clearpage
 \begin{figure}[h]
