@@ -480,6 +480,47 @@ As the next plots presents, the log model was the best fitting.
 \label{fig:screenshot013}
 \end{figure}
 
+Similar results were obtained using LS fitting algorithm:
+\begin{lstlisting}
+
+1. fitting:
+
+alfa =
+131.3000
+
+beta =
+32.5000
+
+
+
+2. fitting:
+
+alfa =
+102.6901
+
+beta =
+23.9942
+
+gamma =
+-1.4535
+
+
+
+3. fitting:
+
+alfa =
+86.0774
+
+beta =
+43.2545
+
+gamma =
+-6.1973
+
+delta =
+0.3131
+
+\end{lstlisting}
 
 
 
@@ -489,6 +530,48 @@ As the next plots presents, the log model was the best fitting.
 	\centering
 	\includegraphics[width=0.7\linewidth]{screenshot011}
 	\label{fig:screenshot010}
+\end{figure}
+
+To solve this task, the Octave symbolic calculations were used.
+We can use superposotion principle to solve the following system.
+
+This task was coded in the following way, to obtain results:
+\begin{lstlisting}
+pkg load symbolic
+clear;
+A = [-4  0.1 0.1   0 -10   0  -50 -8;
+      0 -1   0   -23   0 -28   0   0;
+      0  0  -0.2   0   6   0  -1  -6;
+      0  1   0    -1   0  -0.2 0   0;
+      0  0   -1    0  -0.2 0   0   0;]
+ 
+syms x1 x2 x3 x4 x5 x6 x7 x8;
+
+X = [x1; x2; x3; x4; x5; x6; x7; x8];
+F = A*X;
+
+fi = [-x2*x3 + 8*x3*x4 - 500*x4*x5 + 50*x4*x2;
+	   x1*x3 + 0.2*x1*x5;
+      -x2*x2 - 1.5*x1*x4 + x2*x4;
+      -x1*x5;
+       x1*x4];
+
+
+
+sol = solve(F(1)==0,F(2)==0,F(3)==0,F(4)==0,F(5)==0,x1,x2,x3,x4,x5)
+X_lin = [sol.x1; sol.x2; sol.x3; sol.x4; sol.x5]
+
+sol2 = solve(fi(1)==0,fi(2)==0,fi(3)==0,fi(4)==0,fi(5)==0)
+X_nonlin = [sol2.x1; sol2.x2; sol2.x3; sol2.x4; sol2.x5]
+\end{lstlisting}
+
+\newpage
+The solution is:
+\begin{figure}[h]
+\centering
+\includegraphics[width=1\linewidth]{screenshot017}
+\caption{Solution for linear part, nonlinear and their superposition (depending on controls variables x6,x7,x8).}
+\label{fig:screenshot017}
 \end{figure}
 
 
@@ -555,6 +638,18 @@ function [xv,it]=broyden(f,x,tol,n)
 	end;
 endfunction
 \end{lstlisting}
+
+Algorithm 3 - LS fitting\\
+\begin{lstlisting}
+function x = LSfitting(A,b)
+	[m,n]=size(A);
+	x = eye(m);
+
+	if (m>=n && rank(A)==n)
+	x = (inv(((A')*A))*(A'))*b';
+end
+
+\end{lstlisting}
 \begin{thebibliography}{8}
 \addcontentsline{toc}{chapter}{Bibliography}
 %\addcontentsline{toc}{section}{Literatura}
@@ -563,10 +658,8 @@ J. Nocedal, S. J. Wright, Numerical Optimization, Springer, 1999,
 \bibitem{zdunek}
 Zdunek R., Optimization Methods - lecture slides.
 \bibitem{mathworks}
-Mathworks webpage, "Unconstrained Optimization Algorithms", https://www.mathworks.com/help/optim/ug/unconstrained-nonlinear-optimization-algorithms.html
-\bibitem{uni}
-Nonlinear Programming course webpage, North Carolina State University,
-http://www4.ncsu.edu/~kksivara/ma706/
+Octave symbolic package documentation, https://octave.sourceforge.io/symbolic/
+
 \end{thebibliography}
 
 \end{document}
