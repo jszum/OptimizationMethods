@@ -191,24 +191,250 @@ surf(X,Y,Z);
 \clearpage
 
 %task2
-\clearpage
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot003}
+\label{fig:screenshot003}
+\end{figure}
+In the following task, we can distinguish two constrains:
+\begin{flalign*}
+f(x) = x_1 + x_2\\
+c_1(x)=x_2 \geq 0\\
+c_2(x)=2 - x_1^2 -x_2^2 \geq 0
+\end{flalign*}
+Therefor the Lagrangian form is:
+\begin{flalign*}
+L(x, \lambda) = f(x) - \lambda_1 c_1(x) - \lambda_2c_2(x) = x_1 + x_2 -\lambda_1x_2 - \lambda_2(2-x_1^2-x_2^2)
+\end{flalign*}
+Calculation for the following KKT conditions:
+\begin{flalign*}
+\frac{\delta L(x,\lambda)}{\delta x_1} = 1-2\lambda_2 x_1 \triangleq 0,\ then\  x_1 = \frac{1}{2\lambda_2}\\
+\\
+\frac{\delta L(x,\lambda)}{\delta x_2} = 1-\lambda x_1 \triangleq 0,\ then\  x_2 = \frac{\frac{1-\lambda_1}{2\lambda_2}}{den}
+\end{flalign*}
+We can treat inequalities as "equal to zero":
+\begin{flalign*}
+2 - (\frac{1}{2\lambda_2})^2 - (\frac{1-\lambda_1}{2\lambda_2})^2 = 0\\
+\frac{1-\lambda_1}{2\lambda_2} = 0\\
+\\
+\lambda_1 = 1\\
+\lambda_2^2 = 1/8,\ so\ \lambda_2  = \frac{1}{2\sqrt2} \lor -\frac{1}{2\sqrt2}
+\end{flalign*}
+After substituting lambda, we calculating the x (we obtain two variants):
+\begin{flalign*}
+x_a = [x_1\ x_2] &= [\ \ \sqrt2\ \ 0]\\
+&\lor\\
+x_b = [x_1\ x_2] &= [-\sqrt2\ \ 0]\\
+\end{flalign*}
+Point $x_b$ is a solution
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.9\linewidth]{screenshot004}
+\caption{Graphical representation. The solution is the point below the line and inside the circle half (including edges).
+In this case it is the point the most at the bottom left.}
+\label{fig:screenshot004}
+\end{figure}
+
+\clearpage 
 
 %task3
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot005}
+\label{fig:screenshot005}
+\end{figure}
+The problem can be easily solved using analytic geometry.
+The minimization problem represents a circle of unknown radius, while the constraint is a semi--surface, but we can assume it as a line.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot006}
+\caption{The solution will be a point lying on the line, which is tangent to unknown circle of radius R (circle on the figure is just example).}
+\label{fig:screenshot006}
+\end{figure}
+Looking at first line equation, we can deduct that perpendicular line will have first coefficient equal to $a = 1$. So the thing is just to calculate the free coefficient.\\
+However we know that certainly it has to go straight through the circle center (0,0).
+Therefore the free coefficient $b = 0$
+The two lines line has the form
+\begin{flalign*}
+x_2 = 1 - x_1
+x_{2p} = x_{1p}
+\end{flalign*}
+The point they cross, is the solution. After solving this problem, we obtain:
+\begin{flalign*}
+x = [x_1\ x_2] = [\frac{1}{2},\ \frac{1}{2}]=[0.5,\ 0.5]
+\end{flalign*}
 \clearpage
 
 
 
 
-%task4
+%task5
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot007}
+\label{fig:screenshot007}
+\end{figure}
+The problem will be solved using Quadratic Programming.
+\\
+To prepare the data for algorithms, we need to calculate the A,b Q and c matrices.
+\\
+Matrix A and c are based on given constraints:
+\begin{flalign*}
+A = 
+\begin{bmatrix}
+1  & 1\\
+-1 & 2\\
+2  & 1
+\end{bmatrix},\ 
+b = 
+\begin{bmatrix}
+2\\2\\2
+\end{bmatrix}
+\end{flalign*}
+
+The next step is to calculate the matrices Q and c. They can be formulate by looking at the general form of the formula:
+\begin{flalign*}
+f(x) &= \frac{1}{2}q_{11}x_1^2 + \frac{1}{2}q_{22}x_2^2 + 
+q_{12}x_1x_2 + 
+c_1x_1 + c_2x_2\\
+\\
+f(x) &= \frac{1}{2}x_1^2 + \frac{1}{2}x_2^2 - 
+x_1x_2 + 
+-2x_1 -6x_2\\
+\\
+Q &= 
+\begin{bmatrix}
+1  & -1\\
+-1 & 2\\
+\end{bmatrix},\ 
+c = 
+\begin{bmatrix}
+-2\\
+-6
+\end{bmatrix}
+\end{flalign*}
+
+\begin{lstlisting}
+QP range
+x =
+0.45714
+1.25714
+
+Elapsed time is 0.00281096 seconds.
+
+
+QP conjugacy
+x =
+0.45714
+1.25714
+
+Elapsed time is 0.00119114 seconds.
+\end{lstlisting}
 \clearpage
 
 
 %task6
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot008}
+\label{fig:screenshot008}
+\end{figure}
+Based on the given data, the following data was prepared:
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.55\linewidth]{screenshot010}
+\label{fig:screenshot010}
+\end{figure}
+
+and Octave code was coded to solve this task:
+\begin{lstlisting}
+A = [1 2 -1; 1 -1 1 ]
+b = [4; -2]
+
+Q = [2 0 0; 0 2 0; 0 0 2]
+c = [0;0;0]
+
+tic
+x = QP_range(A,b,Q,c)
+toc
+
+tic
+x = QP_conjugacy(A,b,Q,c)
+toc
+\end{lstlisting}
+
+The computations were made and there are the results. This time the QP range-space method was faster:
+\begin{lstlisting}
+QP range
+x =
+0.28571
+1.42857
+-0.85714
+
+Elapsed time is 0.000784874 seconds.
+
+
+QP conjugacy
+x =
+0.28571
+1.42857
+-0.85714
+
+Elapsed time is 0.00107598 seconds.
+>>
+\end{lstlisting}
 \clearpage
 
 
 
 %task7
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{screenshot009}
+\label{fig:screenshot009}
+\end{figure}
+Once again, the matrices was prepared in order to start the algorithm:
+\begin{flalign*}
+A &= 
+\begin{bmatrix}
+1  & 2\\
+5 & -4\\
+\end{bmatrix},\ 
+b = 
+\begin{bmatrix}
+2\\-10
+\end{bmatrix}
+\\
+\\
+Q &= 
+\begin{bmatrix}
+2  & 0\\
+0 & 2\\
+\end{bmatrix},\ 
+c = 
+\begin{bmatrix}
+0\\
+0
+\end{bmatrix}
+\end{flalign*}
+The matlab code construction is exactly the same as in previous task, only the data changes.
+\begin{lstlisting}
+QP range
+x =
+-0.85714
+1.42857
+
+Elapsed time is 0.000548124 seconds.
+
+
+
+QP conjugacy
+x =
+-0.85714
+1.42857
+
+Elapsed time is 0.000355005 seconds.
+\end{lstlisting}
 \clearpage
 
 
@@ -220,14 +446,45 @@ surf(X,Y,Z);
 
 \clearpage
 \chapter{Listings of algorithms}
-\section{Coded selected algorithms}
-Algorithm 1 - \\ 
+Algorithm 1 - QP range--space\\ 
 \begin{lstlisting}
-
+function [x_sol] = QP_range(A,b,Q,c)
+	disp("QP range")
+	x = A\b;
+	g = c+Q*x;
+	r = A*x -b;
+	invQ = inv(Q);
+	lambda = (A*invQ*A')\(A*invQ*g-r);
+	p= Q\(A'*lambda -g);
+	x_sol = x + p;
+endfunction
 \end{lstlisting}
-\newpage
-Algorithm 2 - \\
+
+Algorithm 2 - QP Conjugacy based\\
 \begin{lstlisting}
+function [x_sol] = QP_conjugacy(A,b,Q,c)
+
+	disp("QP conjugacy")
+	
+	x = A\b;
+	g = c+Q*x;
+	r = A*x -b;
+	
+	[Qa, Ra] = qr(A');
+	L = chol(Qa'*Q*Qa);
+	
+	W = Qa*inv(L);
+	[m,n] = size(W);
+	
+	Z = W(1:end, 1:n-m);
+	Y = W(1:end, n-m+1:end);
+	
+	py = (A*Y)\(-r);
+	pz = -Z'*g;
+	p = Y*py + Z*pz;
+	
+	x_sol = x + p;
+endfunction
 \end{lstlisting}
 \begin{thebibliography}{8}
 \addcontentsline{toc}{chapter}{Bibliography}
@@ -237,10 +494,8 @@ J. Nocedal, S. J. Wright, Numerical Optimization, Springer, 1999,
 \bibitem{zdunek}
 Zdunek R., Optimization Methods - lecture slides.
 \bibitem{mathworks}
-Mathworks webpage, "Unconstrained Optimization Algorithms", https://www.mathworks.com/help/optim/ug/unconstrained-nonlinear-optimization-algorithms.html
-\bibitem{uni}
-Nonlinear Programming course webpage, North Carolina State University,
-http://www4.ncsu.edu/~kksivara/ma706/
+Methods for Constrained Optimization,
+Coralia Cartis, University of Oxford
 \end{thebibliography}
 
 \end{document}
